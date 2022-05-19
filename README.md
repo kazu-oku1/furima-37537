@@ -23,70 +23,70 @@ Things you may want to cover:
 
 * ...
 # usersテーブル
-| Column             | Type   | Options                   |
-| ------------------ | ------ | -----------               |
-| name               | string | null: false               |
-| email              | string | null: false, unique: true |
-| encrypted_password | string | null: false               |
-| first name-kanji   | string   | null: false               |
-| last name-kanji    | string   | null: false               |
-| first name-kana    | string   | null: false               |
-| last name-kana     | string   | null: false               |
-| birthday           | datetime  | null: false               |
+| Column              | Type   | Options                   |
+| ------------------  | ------ | -----------               |
+| nickname            | string | null: false               |
+| email               | string | null: false, unique: true |
+| encrypted_password  | string | null: false               |
+| first_name          | string | null: false               |
+| family_name         | string | null: false               |
+| first_name_kana     | string | null: false               |
+| family_name_kana    | string | null: false               |
+| birth_day           | date   | null: false               |
 
-
-has_many :prototypes
+### Association
+has_many :items
 has_many :purchases
 
-
 # itemsテーブル
-| Column             | Type   | Options                   |
-| ------------------ | ------ | -----------               |
-| title              | string | null: false               |
-| concept            | text   | null: false               |
-| category           | string | null: false               |
-| detail             | text   | null: false               |
-| postage            | string | null: false               |
-| origin             | string | null: false               |
-| date               | datetime | null: false               |
-| price              | integer | null: false               |
+| Column             | Type       | Options                        |
+| ------------------ | ------     | -----------                    |
+| photo              | text       | null: false                    |
+| title              | string     | null: false                    |
+| explanation        | text       | null: false                    |
+| category_id        | integer    | null: false                    |
+| item_conditions_id | integer    | null: false                    |
+| postage_type_id    | integer    | null: false                    |
+| prefectures_id     | integer    | null: false                    |
+| preparation_days_id| integer    | null: false                    |
+| value              | integer    | null: false                    |
 | user               | references | null: false, foreign_key: true |
 
+### Association
 belongs_to :user
-has_one :record
-
-
+has_one :purchase
+belongs_to_active_hash :category_id
+belongs_to_active_hash :item_conditions_id
+belongs_to_active_hash :postage_type_id
+belongs_to_active_hash :prefectures_id
+belongs_to_active_hash :preparation_days_id
 
 # purchasesテーブル
-| Column             | Type   | Options                   |
-| ------------------ | ------ | -----------               |
-| title              | string | null: false               |
-| price              | integer | null: false               |
-| postage             | string | null: false               |
-| item               | references | null: false foreign_key: true              |
-| user              | references | null: false, foreign_key: true |
+| Column             | Type       | Options                        |
+| ------------------ | ------     | -----------                    |
+| item               | references | null: false foreign_key: true  |
+| user               | references | null: false, foreign_key: true |
+| delivery           | references | null: false, foreign_key: true |
 
-
+### Association
 belongs_to :user
 belongs_to :item
 belongs_to :delivery
 
-
-
-
 # deliveriesテーブル
-| Column             | Type   | Options                   |
-| ------------------ | ------ | -----------               |
-| postal code        | integer  | null: false               |
-| prefecture         | string  | null: false               |
-| cities/wards/towns/villages | string | null: false               |
-| address              | text | null: false               |
-| building-name           |　string  | null: false               |
-| phone number              | integer | null: false               |
-| postage              | string | null: false             |
+| Column             | Type       | Options                        |
+| ------------------ | ------     | -----------                    |
+| postal_code        | integer    | null: false                    |
+| prefectures_id     | string     | null: false                    |
+| city               | string     | null: false                    |
+| address            | text       | null: false                    |
+| building_name      | string     |                                |
+| phone_number       | string     | null: false                    |  
+| purchase           | references | null: false, foreign_key: true |
 
-
-has_many :purchases
+### Association
+has_one_active_hash :prefectures_id
+has_one :purchase
 
 
 
