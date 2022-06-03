@@ -7,13 +7,15 @@ RSpec.describe Item, type: :model do
 
   describe '商品の保存' do
     context '商品が保存できる場合' do
-      it 'titleとexplanation、price、image、category_id、condition_id、postage_type、prefecture_id、preparation_day_idがあれば商品は保存される' do
+      it 'titleとexplanation、price、image、category、condition、postage type、prefecture、preparation dayがあれば商品は保存される' do
         expect(@item).to be_valid
       end
     end
     context '商品の保存ができない場合' do
       it 'imageがないと商品は保存できない' do
-      
+        @item.image = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Image can't be blank")
       end
       it 'titleがないと商品は保存できない' do
         @item.title = ''
@@ -25,40 +27,40 @@ RSpec.describe Item, type: :model do
         @item.valid?
         expect(@item.errors.full_messages).to include("Explanation can't be blank")
       end
-      it 'imageがないと商品は保存できない' do
-        @item.image = ''
-        @item.valid?
-        expect(@item.errors.full_messages).to include(" can't be blank")
-      end
       it 'category_idがないと商品は保存できない' do
-        @item. = ''
+        @item.category_id = ''
         @item.valid?
-        expect(@item.errors.full_messages).to include(" can't be blank")
+        expect(@item.errors.full_messages).to include("Category can't be blank")
       end
       it 'condition_idがないと商品は保存できない' do
-        @item. = ''
+        @item.condition_id = ''
         @item.valid?
-        expect(@item.errors.full_messages).to include(" can't be blank")
+        expect(@item.errors.full_messages).to include("Condition can't be blank")
       end
       it 'postage_type_idがないと商品は保存できない' do
-        @item. = ''
+        @item.postage_type_id = ''
         @item.valid?
-        expect(@item.errors.full_messages).to include(" can't be blank")
+        expect(@item.errors.full_messages).to include("Postage type can't be blank")
       end
       it 'prefecture_idがないと商品は保存できない' do
-        @item. = ''
+        @item.prefecture_id = ''
         @item.valid?
-        expect(@item.errors.full_messages).to include(" can't be blank")
+        expect(@item.errors.full_messages).to include("Prefecture can't be blank")
       end
       it 'preparation_day_idがないと商品は保存できない' do
-        @item. = ''
+        @item.preparation_day_id = ''
         @item.valid?
-        expect(@item.errors.full_messages).to include(" can't be blank")
+        expect(@item.errors.full_messages).to include("Preparation day can't be blank")
       end
-      it 'ユーザーが紐づいていないと商品は保存できない' do
-        @item.user = nil
+      it '販売価格が¥300より少ない時は出品できないこと' do
+        @item.price = 299
         @item.valid?
-        expect(@item.errors.full_messages).to include('User must exist')
+        expect(@item.errors.full_messages).to include("Price must be greater than or equal to 300")
+      end
+      it '販売価格が¥9999999より多い時は出品できないこと' do
+        @item.price = 10_000_000
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Price must be less than or equal to 9999999")
       end
     end
   end
