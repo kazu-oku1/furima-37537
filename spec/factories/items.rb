@@ -9,7 +9,6 @@ FactoryBot.define do
     prefecture_id { '5' }
     preparation_day_id { '6' }
     association :user
-    # association :purchase
 
     after(:build) do |item|
       item.image.attach(io: File.open('public/images/test_image.png'), filename: 'test_image.png')
