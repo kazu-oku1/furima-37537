@@ -20,13 +20,13 @@ class ItemsController < ApplicationController
     end
   end
 
-  def show    
+  def show
   end
 
-  def edit    
+  def edit
   end
 
-  def update    
+  def update
     if @item.update(item_params)
       redirect_to item_path(@item)
     else
@@ -51,8 +51,6 @@ class ItemsController < ApplicationController
   end
 
   def move_to_index
-    unless current_user == @item.user
-      redirect_to root_path
-    end
+    redirect_to root_path unless current_user == @item.user
   end
 end
