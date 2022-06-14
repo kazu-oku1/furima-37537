@@ -8,7 +8,7 @@ RSpec.describe PurchaseDelivery, type: :model do
     end
 
     context '内容に問題ない場合' do
-      it 'すべての値が正しく入力されていれば保存できること' do
+      it 'すべての値とtokenが正しく入力されていれば保存できること' do
         expect(@purchase_delivery).to be_valid
       end
       it 'building_nameは空でも保存できること' do
