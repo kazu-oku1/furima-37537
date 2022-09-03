@@ -14,4 +14,9 @@ class User < ApplicationRecord
 
   has_many :items
   has_many :purchases
+  has_many :favorites
+  has_many :fav_items, through: :favorites, source: :item
+  def already_liked?(item)
+    self.favorites.exists?(item_id: item.id)
+  end
 end
